@@ -1,0 +1,6 @@
+luigi==2.5.0
+requests
+goose-extractor
+bs4
+bs4
+pandas
