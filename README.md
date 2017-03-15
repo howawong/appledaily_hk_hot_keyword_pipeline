@@ -20,3 +20,7 @@ python sample_pipeline.py Workflow
 
 
 ### RetrieveNewsKeywordsScoresTask	
+
+
+## Result
+![result](https://cloud.githubusercontent.com/assets/760880/23935331/641a2610-0986-11e7-939d-549c5ec23706.PNG)
