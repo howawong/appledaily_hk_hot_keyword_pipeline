@@ -10,12 +10,12 @@ jieba.analyse.set_idf_path(join_path(DATA_DIR, "idf.txt.big"))
 jieba.analyse.set_stop_words(join_path(DATA_DIR, "stop_words.txt"))
 
 import jieba.posseg as pseg
-
+from config import KEYWORDS_URLS_CSV, CONTENTS_JSON
 class RetrieveNewsKeywordsTask(luigi.Task):
     def requires(self):
         return [RetrieveNewsContentTask()]
     def output(self):
-        return luigi.LocalTarget("keywords_urls.csv")
+        return luigi.LocalTarget(KEYWORDS_URLS_CSV)
 
     def get_keywords(self, content):
         result = pseg.cut(content)
@@ -24,7 +24,7 @@ class RetrieveNewsKeywordsTask(luigi.Task):
         return tags 
 
     def run(self):
-        df = pd.read_json('contents.json')
+        df = pd.read_json(CONTENTS_JSON)
         output = []
         for index, row in df.iterrows():
             tags = self.get_keywords(row['content'])

@@ -4,13 +4,13 @@ import time
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-
+from config import LINKS_CSV
 
 class RetrieveNewsLinksTask(luigi.Task):
     def requires(self):
         return []
     def output(self):
-        return luigi.LocalTarget("links.csv")
+        return luigi.LocalTarget(LINKS_CSV)
 
     def get_links(self):
         d = '20170313'

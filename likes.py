@@ -5,12 +5,13 @@ from urllib import urlencode
 import pandas as pd
 import time
 from apple_links import RetrieveNewsLinksTask
+from config import LIKE_COUNTS_CSV, LINKS_CSV, ACCESS_TOKEN
 class RetrieveNewsLikeCountsTask(luigi.Task):
     def requires(self):
         return [RetrieveNewsLinksTask()]
     
     def output(self):
-        return luigi.LocalTarget("like_counts.csv")
+        return luigi.LocalTarget(LIKE_COUNTS_CSV)
 
     def chunks(self, l, n):
         output = []
@@ -22,10 +23,9 @@ class RetrieveNewsLikeCountsTask(luigi.Task):
     def get_like_count_by_url(self, id_urls):
         d = {}
         #TODO: put in the token
-        access_token = ''
         for sub_list in self.chunks(id_urls, 3):
             print "Processing" + ",".join(sub_list)
-            url = "https://graph.facebook.com/?%s" % (urlencode({'ids': ",".join(sub_list), 'fields': 'og_object{engagement{count}}', 'access_token': access_token}))
+            url = "https://graph.facebook.com/?%s" % (urlencode({'ids': ",".join(sub_list), 'fields': 'og_object{engagement{count}}', 'access_token': ACCESS_TOKEN}))
             r = requests.get(url)
             o = r.json()
             print o
@@ -44,7 +44,7 @@ class RetrieveNewsLikeCountsTask(luigi.Task):
      
 
     def run(self):
-        df = pd.read_csv('links.csv')
+        df = pd.read_csv(LINKS_CSV)
         counts = self.get_like_count_by_url(df['url'].tolist())
         df['count'] = df['url'].map(counts)
         with self.output().open('w') as f:
