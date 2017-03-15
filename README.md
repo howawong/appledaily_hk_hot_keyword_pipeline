@@ -1,12 +1,12 @@
 # luigi_pipeline_demo
 
-# Starting luigid / Central Scheduler
+## Starting luigid / Central Scheduler
 URL: http://localhost:8082/
 ```(bash)
 luigid --background
 ```
 
-# How to run
+## How to run
 ```(bash)
 python sample_pipeline.py Workflow
 ```
